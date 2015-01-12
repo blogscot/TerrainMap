@@ -7,7 +7,7 @@ public class BasicMapApp {
 
 	public static void main(String[] args) {
 		
-		TerrainMap myMap = new TerrainMap(20,25);
+		TerrainMap myMap = new TerrainMap(40,25);
 		myMap.setRenderer(new ConsoleRenderer());
 //		myMap.setRenderer(new TestRenderer());
 		myMap.draw();

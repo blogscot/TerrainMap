@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import view.Renderer;
 
-public class TerrainMap {
+final public class TerrainMap {
 
 	private int row;
 	private int column;
@@ -17,11 +17,12 @@ public class TerrainMap {
 		this.row = row;
 		this.column = column;
 
+		System.out.println(row+","+column);
 		tiledMap = new Terrain[row][column];
 		createMap();
 	}
 
-	/*
+	/**
 	 *  Sets the map renderer using Dependency Injection
 	 */
 	public void setRenderer(Renderer renderer) {
@@ -36,8 +37,8 @@ public class TerrainMap {
 		return new Dimension(row, column);
 	}
 
-	public Terrain getTerrainType(int x, int y) {
-		return tiledMap[x][y];
+	public Terrain getTerrainType(int row, int column) {
+		return tiledMap[row][column];
 	}
 
 	/**
@@ -51,8 +52,7 @@ public class TerrainMap {
 		
 		for (int j = 0; j < column; j++) {
 			for (int i = 0; i < row; i++) {
-				char tile = tiledMap[i][j].getValue();
-				if (tile == Terrain.Hedge.getValue()) {
+				if (!tiledMap[i][j].isPassable()) {
 					nonPassableItems += 1;
 				}
 			}
@@ -93,7 +93,7 @@ public class TerrainMap {
 
 		// cut an entrance in the bottom hedge
 		int middle = column / 2;
-		int entranceStartPos = isOdd(row) ? middle -2 : middle - 3;
+		int entranceStartPos = isOdd(column) ? middle -2 : middle - 3;
 		for (int i = row-1, j = entranceStartPos; j < entranceStartPos+6; j++) {
 			tiledMap[i][j] = Terrain.Grass;
 		}

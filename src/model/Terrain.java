@@ -12,4 +12,8 @@ public enum Terrain {
 	public char getValue() {
 		return value;
 	}
+	
+	public boolean isPassable() {
+		return this.value != 'H';
+	}
 }
