@@ -8,10 +8,13 @@ public class ConsoleRenderer implements Renderer {
 
 	@Override
 	public void render(TerrainMap map) {
-		
+
+		// Dimension tuple maps thus,
+		// width => row
+		// height => column
 		Dimension size = map.getSize();
-		
-		for(int i = 0; i < size.width; i++) {
+
+		for (int i = 0; i < size.width; i++) {
 			for (int j = 0; j < size.height; j++) {
 				System.out.print(map.getTerrainType(i, j).getValue());
 			}
