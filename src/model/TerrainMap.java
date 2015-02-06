@@ -29,6 +29,9 @@ final public class TerrainMap {
 	}
 
 	/**
+	 * Dimension tuple maps 
+	 * 	width => row 
+	 * 	height => column
 	 * 
 	 * @return Dimension contains the dimensions of the tiled map
 	 */
