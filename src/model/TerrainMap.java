@@ -4,28 +4,30 @@ import view.Renderer;
 
 final public class TerrainMap {
 
-	private int row;
-	private int column;
+	private int x;
+	private int y;
 
 	private Terrain[][] tiledMap;
 	private Renderer myRenderer;
 
 	/**
-	 * Create a map of type Terrain of dimensions row by column.
+	 * Creates a map of type Terrain of dimensions x by y.
 	 * 
 	 * @param row the map's width
 	 * @param column the map's height
 	 */
-	public TerrainMap(int row, int column) {
-		this.row = row;
-		this.column = column;
+	public TerrainMap(int x, int y) {
+		this.x = x;
+		this.y = y;
 
-		tiledMap = new Terrain[row][column];
+		tiledMap = new Terrain[x][y];
 		createMap();
 	}
 
 	/**
-	 * Set the map renderer
+	 * Sets the map renderer
+	 * 
+	 * @param renderer the User specified renderer
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.myRenderer = renderer;
@@ -37,7 +39,7 @@ final public class TerrainMap {
 	 * @return the map's width
 	 */
 	public int getWidth() {
-		return row;
+		return x;
 	}
 	
 	/**
@@ -46,18 +48,40 @@ final public class TerrainMap {
 	 * @return the map's height
 	 */
 	public int getHeight() {
-		return column;
+		return y;
 	}
 
 	/**
-	 * Returns the Terrain type at co-ordinate (row, column)
+	 * Returns the Terrain type at co-ordinate (x, y)
 	 * 
-	 * @param row the map's row position
-	 * @param column the map's column position
+	 * @param row the map's x position
+	 * @param column the map's y position
 	 * @return the Terrain type
 	 */
-	public Terrain getTerrainType(int row, int column) {
-		return tiledMap[row][column];
+	public Terrain getTerrain(int x, int y) {
+		return tiledMap[x][y];
+	}
+	
+	/**
+	 * Sets the Terrain at co-ordinate (x,y).
+	 * 
+	 * @param x the starting x position
+	 * @param y the starting y position
+	 * @param width the new region's width
+	 * @param height the new region's height
+	 * @param terrain the Terrain type
+	 */
+	public void setTerrain(int x, int y, int width, int height, Terrain terrain) {
+
+		// Set up the terrain borders
+		int endX = x+width;
+		int endY = y+height;
+		
+		for (int j = x; j < endX ; j++) {
+			for (int i = y; i < endY; i++) {
+				tiledMap[j][i] = terrain;
+			}
+		}
 	}
 
 	/**
@@ -66,11 +90,11 @@ final public class TerrainMap {
 	 * @return double percentage of passable area
 	 */
 	public double getPassableArea() {
-		double totalItems = row * column;
+		double totalItems = x * y;
 		double nonPassableItems = 0;
 
-		for (int j = 0; j < column; j++) {
-			for (int i = 0; i < row; i++) {
+		for (int j = 0; j < y; j++) {
+			for (int i = 0; i < x; i++) {
 				if (!tiledMap[i][j].isPassable()) {
 					nonPassableItems += 1;
 				}
@@ -100,21 +124,42 @@ final public class TerrainMap {
 	private void createMap() {
 
 		// initialise the map with grass
-		for (int j = 0; j < column; j++) {
-			for (int i = 0; i < row; i++) {
+		for (int j = 0; j < y; j++) {
+			for (int i = 0; i < x; i++) {
 				tiledMap[i][j] = Terrain.Grass;
 
 				// if we're at a boundary build a hedge
-				if (j == 0 || i == 0 || j == column - 1 || i == row - 1) {
+				if (j == 0 || i == 0 || j == y - 1 || i == x - 1) {
 					tiledMap[i][j] = Terrain.Hedge;
 				}
 			}
 		}
 
 		// cut an entrance in the bottom hedge
-		int middle = column / 2;
-		int entranceStartPos = isOdd(column) ? middle - 2 : middle - 3;
-		for (int _row = row - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
+		int middle = y / 2;
+		int entranceStartPos = isOdd(y) ? middle - 2 : middle - 3;
+		for (int _row = x - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
+			tiledMap[_row][_col] = Terrain.Grass;
+		}
+	}
+	
+	public void createBorder(Terrain terrain) {
+
+		// initialise the map with grass
+		for (int j = 0; j < y; j++) {
+			for (int i = 0; i < x; i++) {
+
+				// if we're at a boundary build a hedge
+				if (j == 0 || i == 0 || j == y - 1 || i == x - 1) {
+					tiledMap[i][j] = terrain;
+				}
+			}
+		}
+
+		// cut an entrance in the bottom hedge
+		int middle = y / 2;
+		int entranceStartPos = isOdd(y) ? middle - 2 : middle - 3;
+		for (int _row = x - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
 			tiledMap[_row][_col] = Terrain.Grass;
 		}
 	}

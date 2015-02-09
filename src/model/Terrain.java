@@ -1,7 +1,7 @@
 package model;
 
 public enum Terrain {
-	Entrance(' '),	Grass('.'), Hedge('H');
+	Entrance(' '),	Grass('.'), Hedge('H'), Rock('x');
 	
 	private char value;
 	
@@ -14,6 +14,6 @@ public enum Terrain {
 	}
 	
 	public boolean isPassable() {
-		return this.value != 'H';
+		return this.value != 'H' && this.value != 'x';
 	}
 }

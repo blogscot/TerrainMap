@@ -49,6 +49,8 @@ public class JPanelRenderer implements Renderer {
 		case Hedge:
 			g.setColor(new Color(0, 150, 0));
 			break;
+		case Rock:
+			g.setColor(new Color(150,150,0));
 		default:
 		}
 
@@ -59,7 +61,7 @@ public class JPanelRenderer implements Renderer {
 
 		for (int j = 0; j < myMap.getHeight(); j++) {
 			for (int i = 0; i < myMap.getWidth(); i++) {
-				drawTerrain(g, i, j, myMap.getTerrainType(i, j));
+				drawTerrain(g, i, j, myMap.getTerrain(i, j));
 			}
 		}
 	}

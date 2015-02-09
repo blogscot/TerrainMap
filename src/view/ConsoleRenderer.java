@@ -9,7 +9,7 @@ public class ConsoleRenderer implements Renderer {
 
 		for (int j = 0; j < map.getHeight(); j++) {
 			for (int i = 0; i < map.getWidth(); i++) {
-				System.out.print(map.getTerrainType(i, j).getValue());
+				System.out.print(map.getTerrain(i, j).getValue());
 			}
 			System.out.println();
 		}
