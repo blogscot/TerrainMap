@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Dimension;
-
 import view.Renderer;
 
 final public class TerrainMap {
@@ -10,9 +8,14 @@ final public class TerrainMap {
 	private int column;
 
 	private Terrain[][] tiledMap;
-
 	private Renderer myRenderer;
 
+	/**
+	 * Create a map of type Terrain of dimensions row by column.
+	 * 
+	 * @param row the map's width
+	 * @param column the map's height
+	 */
 	public TerrainMap(int row, int column) {
 		this.row = row;
 		this.column = column;
@@ -22,23 +25,37 @@ final public class TerrainMap {
 	}
 
 	/**
-	 * Sets the map renderer using Dependency Injection
+	 * Set the map renderer
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.myRenderer = renderer;
 	}
 
 	/**
-	 * Dimension tuple maps 
-	 * 	width => row 
-	 * 	height => column
+	 * Returns the width of the Terrain map
 	 * 
-	 * @return Dimension contains the dimensions of the tiled map
+	 * @return the map's width
 	 */
-	public Dimension getSize() {
-		return new Dimension(row, column);
+	public int getWidth() {
+		return row;
+	}
+	
+	/**
+	 * Returns the height of the Terrain map
+	 * 
+	 * @return the map's height
+	 */
+	public int getHeight() {
+		return column;
 	}
 
+	/**
+	 * Returns the Terrain type at co-ordinate (row, column)
+	 * 
+	 * @param row the map's row position
+	 * @param column the map's column position
+	 * @return the Terrain type
+	 */
 	public Terrain getTerrainType(int row, int column) {
 		return tiledMap[row][column];
 	}
@@ -63,7 +80,8 @@ final public class TerrainMap {
 	}
 
 	/**
-	 * Calls the user defined Renderer. Fails fast.
+	 * Draws the map using the user defined Renderer. 
+	 * Fails fast.
 	 * 
 	 */
 	public void draw() {
@@ -101,10 +119,22 @@ final public class TerrainMap {
 		}
 	}
 
+	/**
+	 * Returns true if parameter is even
+	 * 
+	 * @param value integer value
+	 * @return true if value is even
+	 */
 	private boolean isEven(int value) {
 		return value % 2 == 0;
 	}
-
+	
+	/**
+	 * Returns true if parameter is odd
+	 * 
+	 * @param value integer value
+	 * @return true if value is odd
+	 */
 	private boolean isOdd(int value) {
 		return !isEven(value);
 	}
