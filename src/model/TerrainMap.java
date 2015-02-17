@@ -4,8 +4,8 @@ import view.Renderer;
 
 final public class TerrainMap {
 
-	private int x;
-	private int y;
+	private int width;
+	private int height;
 
 	private Terrain[][] tiledMap;
 	private Renderer myRenderer;
@@ -13,15 +13,16 @@ final public class TerrainMap {
 	/**
 	 * Creates a map of type Terrain of dimensions x by y.
 	 * 
-	 * @param row the map's width
-	 * @param column the map's height
+	 * @param width the map's width
+	 * @param height the map's height
+	 * @param initialValue the map's initial value
 	 */
-	public TerrainMap(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public TerrainMap(int width, int height, Terrain initialValue) {
+		this.width = width;
+		this.height = height;
 
-		tiledMap = new Terrain[x][y];
-		createMap();
+		tiledMap = new Terrain[width][height];
+		createMap(initialValue);
 	}
 
 	/**
@@ -39,7 +40,7 @@ final public class TerrainMap {
 	 * @return the map's width
 	 */
 	public int getWidth() {
-		return x;
+		return width;
 	}
 	
 	/**
@@ -48,7 +49,7 @@ final public class TerrainMap {
 	 * @return the map's height
 	 */
 	public int getHeight() {
-		return y;
+		return height;
 	}
 
 	/**
@@ -90,11 +91,11 @@ final public class TerrainMap {
 	 * @return double percentage of passable area
 	 */
 	public double getPassableArea() {
-		double totalItems = x * y;
+		double totalItems = width * height;
 		double nonPassableItems = 0;
 
-		for (int j = 0; j < y; j++) {
-			for (int i = 0; i < x; i++) {
+		for (int j = 0; j < height; j++) {
+			for (int i = 0; i < width; i++) {
 				if (!tiledMap[i][j].isPassable()) {
 					nonPassableItems += 1;
 				}
@@ -121,24 +122,24 @@ final public class TerrainMap {
 	 * Creates an ASCII Map using '.' for grass, 'H' for hedge and ' ' to
 	 * represent an entrance to the tiled map.
 	 */
-	private void createMap() {
+	private void createMap(Terrain terrain) {
 
 		// initialise the map with grass
-		for (int j = 0; j < y; j++) {
-			for (int i = 0; i < x; i++) {
-				tiledMap[i][j] = Terrain.Grass;
+		for (int j = 0; j < height; j++) {
+			for (int i = 0; i < width; i++) {
+				tiledMap[i][j] = terrain;
 
 				// if we're at a boundary build a hedge
-				if (j == 0 || i == 0 || j == y - 1 || i == x - 1) {
+				if (j == 0 || i == 0 || j == height - 1 || i == width - 1) {
 					tiledMap[i][j] = Terrain.Hedge;
 				}
 			}
 		}
 
 		// cut an entrance in the bottom hedge
-		int middle = y / 2;
-		int entranceStartPos = isOdd(y) ? middle - 2 : middle - 3;
-		for (int _row = x - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
+		int middle = height / 2;
+		int entranceStartPos = isOdd(height) ? middle - 2 : middle - 3;
+		for (int _row = width - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
 			tiledMap[_row][_col] = Terrain.Grass;
 		}
 	}
@@ -146,20 +147,20 @@ final public class TerrainMap {
 	public void createBorder(Terrain terrain) {
 
 		// initialise the map with grass
-		for (int j = 0; j < y; j++) {
-			for (int i = 0; i < x; i++) {
+		for (int j = 0; j < height; j++) {
+			for (int i = 0; i < width; i++) {
 
 				// if we're at a boundary build a hedge
-				if (j == 0 || i == 0 || j == y - 1 || i == x - 1) {
+				if (j == 0 || i == 0 || j == height - 1 || i == width - 1) {
 					tiledMap[i][j] = terrain;
 				}
 			}
 		}
 
 		// cut an entrance in the bottom hedge
-		int middle = y / 2;
-		int entranceStartPos = isOdd(y) ? middle - 2 : middle - 3;
-		for (int _row = x - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
+		int middle = height / 2;
+		int entranceStartPos = isOdd(height) ? middle - 2 : middle - 3;
+		for (int _row = width - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
 			tiledMap[_row][_col] = Terrain.Grass;
 		}
 	}
