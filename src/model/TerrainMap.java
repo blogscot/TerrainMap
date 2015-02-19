@@ -2,8 +2,18 @@ package model;
 
 import view.Renderer;
 
+/**
+ * 
+ * The main Terrain Map class. 
+ * 
+ * @author Iain Diamond
+ * @version 18/02/2015
+ * 
+ */
+
 final public class TerrainMap {
 
+	// The stored terrain map dimensions
 	private int width;
 	private int height;
 
@@ -11,18 +21,18 @@ final public class TerrainMap {
 	private Renderer myRenderer;
 
 	/**
-	 * Creates a map of type Terrain of dimensions x by y.
+	 * Creates a map of type Terrain with dimensions width by height.
 	 * 
 	 * @param width the map's width
 	 * @param height the map's height
-	 * @param initialValue the map's initial value
+	 * @param terrain the default terrain type
 	 */
-	public TerrainMap(int width, int height, Terrain initialValue) {
+	public TerrainMap(int width, int height, Terrain terrain) {
 		this.width = width;
 		this.height = height;
 
 		tiledMap = new Terrain[width][height];
-		createMap(initialValue);
+		createMap(terrain);
 	}
 
 	/**
@@ -53,18 +63,22 @@ final public class TerrainMap {
 	}
 
 	/**
-	 * Returns the Terrain type at co-ordinate (x, y)
+	 * Returns the Terrain type at co-ordinate (x, y).
+	 * 
+	 * Note: internally the origin is top-left. However, by
+	 * translating the Y-axis the origin appears to be bottom-left
+	 * when the map is rendered.
 	 * 
 	 * @param row the map's x position
 	 * @param column the map's y position
 	 * @return the Terrain type
 	 */
 	public Terrain getTerrain(int x, int y) {
-		return tiledMap[x][y];
+		return tiledMap[x][translateY(y)];
 	}
 	
 	/**
-	 * Sets the Terrain at co-ordinate (x,y).
+	 * Sets the Terrain area to the defined type.
 	 * 
 	 * @param x the starting x position
 	 * @param y the starting y position
@@ -81,6 +95,39 @@ final public class TerrainMap {
 		for (int j = x; j < endX ; j++) {
 			for (int i = y; i < endY; i++) {
 				tiledMap[j][i] = terrain;
+			}
+		}
+	}
+
+	/**
+	 * Sets the Terrain area to a random type
+	 * 
+	 * @param x the starting x position
+	 * @param y the starting y position
+	 * @param width the new region's width
+	 * @param height the new region's height
+	 */
+	public void setTerrain(int x, int y, int width, int height) {
+		setTerrain(x, y, width, height, Terrain.getRandom());
+	}
+	
+	/**
+	 * Sets the Terrain individual tiles randomly
+	 * 
+	 * @param x the starting x position
+	 * @param y the starting y position
+	 * @param width the new region's width
+	 * @param height the new region's height
+	 */
+	public void setTerrainRandomly(int x, int y, int width, int height) {
+
+		// Set up the terrain borders
+		int endX = x+width;
+		int endY = y+height;
+		
+		for (int j = x; j < endX ; j++) {
+			for (int i = y; i < endY; i++) {
+				tiledMap[j][i] = Terrain.getRandom();
 			}
 		}
 	}
@@ -183,5 +230,16 @@ final public class TerrainMap {
 	 */
 	private boolean isOdd(int value) {
 		return !isEven(value);
+	}
+	
+	/**
+	 * Translates the y-axis so that the origin becomes
+	 * bottom left, instead of top left.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	private int translateY(int value) {
+		return height-1 - value;
 	}
 }

@@ -11,6 +11,15 @@ import javax.swing.JPanel;
 import model.Terrain;
 import model.TerrainMap;
 
+/**
+ * 
+ * The main Terrain Map class. 
+ * 
+ * @author Iain Diamond
+ * @version 18/02/2015
+ * 
+ */
+
 public class JPanelRenderer implements Renderer {
 
 	private JFrame myFrame = new JFrame();
@@ -51,7 +60,7 @@ public class JPanelRenderer implements Renderer {
 		int height = tileSize;
 		int width = height;
 		
-		g.setColor(terrain.getTerrainColor());
+		g.setColor(terrain.getColor());
 
 		g.fillRect(x * width, y * height, width, height);
 	}
