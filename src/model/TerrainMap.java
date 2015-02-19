@@ -11,15 +11,19 @@ import view.Renderer;
  * 
  */
 
-final public class TerrainMap {
+final public class TerrainMap implements TiledMap {
 
 	// The stored terrain map dimensions
-	private int width;
-	private int height;
+	private int mapWidth;
+	private int mapHeight;
 
 	private Terrain[][] tiledMap;
 	private Renderer myRenderer;
 
+	// method input parameter validation return indicators
+	private static final boolean INVALID = false;
+	private static final boolean SUCCESS = true;
+	
 	/**
 	 * Creates a map of type Terrain with dimensions width by height.
 	 * 
@@ -28,11 +32,29 @@ final public class TerrainMap {
 	 * @param terrain the default terrain type
 	 */
 	public TerrainMap(int width, int height, Terrain terrain) {
-		this.width = width;
-		this.height = height;
+		this.mapWidth = width;
+		this.mapHeight = height;
 
 		tiledMap = new Terrain[width][height];
 		createMap(terrain);
+	}
+
+	/**
+	 * Returns the width of the Terrain map
+	 * 
+	 * @return the map's width
+	 */
+	public int getWidth() {
+		return mapWidth;
+	}
+	
+	/**
+	 * Returns the height of the Terrain map
+	 * 
+	 * @return the map's height
+	 */
+	public int getHeight() {
+		return mapHeight;
 	}
 
 	/**
@@ -42,24 +64,6 @@ final public class TerrainMap {
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.myRenderer = renderer;
-	}
-
-	/**
-	 * Returns the width of the Terrain map
-	 * 
-	 * @return the map's width
-	 */
-	public int getWidth() {
-		return width;
-	}
-	
-	/**
-	 * Returns the height of the Terrain map
-	 * 
-	 * @return the map's height
-	 */
-	public int getHeight() {
-		return height;
 	}
 
 	/**
@@ -91,6 +95,11 @@ final public class TerrainMap {
 		// Set up the terrain borders
 		int endX = x+width;
 		int endY = y+height;
+		
+		if (x < 0 || y < 0 || endX > mapWidth || endY > mapHeight) {
+			System.err.println("Invalid Terrain parameters:"+"("+x+","+y+","+width+","+height+")");
+			return;
+		}
 		
 		for (int j = x; j < endX ; j++) {
 			for (int i = y; i < endY; i++) {
@@ -138,11 +147,11 @@ final public class TerrainMap {
 	 * @return double percentage of passable area
 	 */
 	public double getPassableArea() {
-		double totalItems = width * height;
+		double totalItems = mapWidth * mapHeight;
 		double nonPassableItems = 0;
 
-		for (int j = 0; j < height; j++) {
-			for (int i = 0; i < width; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			for (int i = 0; i < mapWidth; i++) {
 				if (!tiledMap[i][j].isPassable()) {
 					nonPassableItems += 1;
 				}
@@ -165,71 +174,43 @@ final public class TerrainMap {
 		myRenderer.render(this);
 	}
 
+	public boolean setBorder(Terrain terrain, int borderWidth) {
+		
+		if (borderWidth >= mapWidth / 2 ){
+			return INVALID;
+		}
+
+		for (int j = 0; j < mapHeight; j++) {
+			for (int i = 0; i < mapWidth; i++) {
+
+				// if we're at a boundary build a hedge
+				if (j < borderWidth || i < borderWidth || 
+					j >= mapHeight - borderWidth || i >= mapWidth - borderWidth) {
+					tiledMap[i][j] = terrain;
+				}
+			}
+		}
+		
+		return SUCCESS;
+	}
+	
+	// Sets the Map border with a default value
+	public boolean setBorder(Terrain terrain) {
+		return setBorder(terrain, 1);
+	}
+
 	/**
 	 * Creates an ASCII Map using '.' for grass, 'H' for hedge and ' ' to
 	 * represent an entrance to the tiled map.
 	 */
 	private void createMap(Terrain terrain) {
-
+	
 		// initialise the map with grass
-		for (int j = 0; j < height; j++) {
-			for (int i = 0; i < width; i++) {
+		for (int j = 0; j < mapHeight; j++) {
+			for (int i = 0; i < mapWidth; i++) {
 				tiledMap[i][j] = terrain;
-
-				// if we're at a boundary build a hedge
-				if (j == 0 || i == 0 || j == height - 1 || i == width - 1) {
-					tiledMap[i][j] = Terrain.Hedge;
-				}
 			}
 		}
-
-		// cut an entrance in the bottom hedge
-		int middle = height / 2;
-		int entranceStartPos = isOdd(height) ? middle - 2 : middle - 3;
-		for (int _row = width - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
-			tiledMap[_row][_col] = Terrain.Grass;
-		}
-	}
-	
-	public void createBorder(Terrain terrain) {
-
-		// initialise the map with grass
-		for (int j = 0; j < height; j++) {
-			for (int i = 0; i < width; i++) {
-
-				// if we're at a boundary build a hedge
-				if (j == 0 || i == 0 || j == height - 1 || i == width - 1) {
-					tiledMap[i][j] = terrain;
-				}
-			}
-		}
-
-		// cut an entrance in the bottom hedge
-		int middle = height / 2;
-		int entranceStartPos = isOdd(height) ? middle - 2 : middle - 3;
-		for (int _row = width - 1, _col = entranceStartPos; _col < entranceStartPos + 5; _col++) {
-			tiledMap[_row][_col] = Terrain.Grass;
-		}
-	}
-
-	/**
-	 * Returns true if parameter is even
-	 * 
-	 * @param value integer value
-	 * @return true if value is even
-	 */
-	private boolean isEven(int value) {
-		return value % 2 == 0;
-	}
-	
-	/**
-	 * Returns true if parameter is odd
-	 * 
-	 * @param value integer value
-	 * @return true if value is odd
-	 */
-	private boolean isOdd(int value) {
-		return !isEven(value);
 	}
 	
 	/**
@@ -240,6 +221,6 @@ final public class TerrainMap {
 	 * @return
 	 */
 	private int translateY(int value) {
-		return height-1 - value;
+		return mapHeight-1 - value;
 	}
 }

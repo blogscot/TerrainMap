@@ -21,13 +21,15 @@ public class TiledMapApp {
 
 		 map.setRenderer(new ConsoleRenderer());
 		 map.setTerrain(10, 10, 20, 15, Terrain.Rock);
-		 map.setTerrain(12, 12, 1, 1, Terrain.Tree);
 		 map.setTerrainRandomly(22, 32, 10, 12);
-//		 map.draw();
 //		 System.out.println("Passable Area: " + map.getPassableArea()+"%");
 		 
 		 map.setRenderer(new JPanelRenderer());
-		 map.createBorder(Terrain.Fence);
+		 map.setBorder(Terrain.Fence, 5);
+		 map.setBorder(Terrain.Water, 2);
+		 map.setTerrain(20, 60, 10, 20, Terrain.Tree);
+		 map.draw();
+		 map.setRenderer(new ConsoleRenderer());
 		 map.draw();
 //		 map.setRenderer(new TestRenderer());
 	}

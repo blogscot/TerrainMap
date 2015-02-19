@@ -20,8 +20,8 @@ public enum Terrain {
 
 	private char value;
 	
-	private static List<Terrain> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-	private static Random rand = new Random();
+	private static final List<Terrain> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+	private static final Random RAND = new Random();
 	
 	// Tile Colours for each Terrain type 
 	private int[] terrainColors = {
@@ -38,23 +38,30 @@ public enum Terrain {
 		this.value = value;
 	}
 
-	// Returns the ASCII representation of the terrain
-	public char getChar() {
+	/**
+	 *  @return the ASCII representation for the enum instance
+	 */
+	public char toChar() {
 		return value;
 	}
 
-	// Returns the Terrain colour
-	public Color getColor() {
+	/**
+	 * @return the Terrain colour for the enum instance
+	 */
+	public Color toColor() {
 		return new Color(terrainColors[this.ordinal()]);	
 	}
 	
-	// Returns a random Terrain type
+	/**
+	 * @return a random Terrain type
+	 */
 	static public Terrain getRandom() {
-		return VALUES.get(rand.nextInt(VALUES.size()));
+		return VALUES.get(RAND.nextInt(VALUES.size()));
 	}
 
-	// Returns true if a person can walk through a terrain area. i.e.
-	// Trees are hard to walk through.
+	/**
+	 * @return true if a person can walk through a terrain area. i.e. Trees are hard to walk through.
+	 */
 	public boolean isPassable() {
 		return this != Hedge && this != Rock && this != Fence && this != Tree;
 	}

@@ -60,7 +60,7 @@ public class JPanelRenderer implements Renderer {
 		int height = tileSize;
 		int width = height;
 		
-		g.setColor(terrain.getColor());
+		g.setColor(terrain.toColor());
 
 		g.fillRect(x * width, y * height, width, height);
 	}
