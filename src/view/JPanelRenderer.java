@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Terrain;
-import model.TerrainMap;
+import model.TiledMap;
 
 /**
  * 
@@ -20,20 +20,27 @@ import model.TerrainMap;
  * 
  */
 
-public class JPanelRenderer implements Renderer {
+public class JPanelRenderer implements MapRenderer {
 
 	private JFrame myFrame = new JFrame();
-	private TerrainMap myMap = null;
+	private TiledMap myMap = null;
 	private int tileSize = 10;
 	private int mapWidth = 0;
 	private int mapHeight = 0;
 
 	
 	public JPanelRenderer() {
+		this(600, 600);
+	}
+	
+	public JPanelRenderer(int width, int height) {
+
+		mapWidth = width;
+		mapHeight = height;
 
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		init();
-		myFrame.setSize(600, 600);
+		myFrame.setSize(mapWidth, mapHeight);
 		myFrame.setTitle("Terrain Map");
 		myFrame.setBackground(new Color(150, 255, 220));
 		myFrame.setVisible(true);
@@ -89,7 +96,7 @@ public class JPanelRenderer implements Renderer {
 	}
 
 	@Override
-	public void render(TerrainMap map) {
+	public void render(TiledMap map) {
 		
 		// To make the Panel look pretty we need some margins
 		int widthMargin = 6;

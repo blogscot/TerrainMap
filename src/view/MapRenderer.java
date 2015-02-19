@@ -1,6 +1,6 @@
 package view;
 
-import model.TerrainMap;
+import model.TiledMap;
 
 /**
  * 
@@ -11,6 +11,6 @@ import model.TerrainMap;
  * 
  */
 
-public interface Renderer {
-	public void render(TerrainMap map);
+public interface MapRenderer {
+	public void render(TiledMap map);
 }

@@ -1,6 +1,6 @@
 package view;
 
-import model.TerrainMap;
+import model.TiledMap;
 
 /**
  * 
@@ -11,10 +11,10 @@ import model.TerrainMap;
  * 
  */
 
-public class TestRenderer implements Renderer {
+public class TestRenderer implements MapRenderer {
 
 	@Override
-	public void render(TerrainMap map) {
+	public void render(TiledMap map) {
 
 		for (int j = 0; j < map.getHeight(); j++) {
 			for (int i = 0; i < map.getWidth(); i++) {
