@@ -4,10 +4,10 @@ import model.TiledMap;
 
 /**
  * 
- * The main Terrain Map class. 
+ * The MapRenderer interface 
  * 
  * @author Iain Diamond
- * @version 18/02/2015
+ * @version 23/02/2015
  * 
  */
 

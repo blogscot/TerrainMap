@@ -2,8 +2,30 @@ package model;
 
 import view.MapRenderer;
 
+/**
+ * The interface for tiled maps 
+ * 
+ * @author Iain Diamond
+ * @version 23/02/2015
+ *
+ */
+
 public interface Mappable {
 	
+	/**
+	 * Returns the width of the tiled map
+	 * 
+	 * @return the map's width
+	 */
+	public int getWidth();
+	
+	/**
+	 * Returns the height of the tiled map
+	 * 
+	 * @return the map's height
+	 */
+	public int getHeight();
+
 	/**
 	 * Sets the map renderer
 	 * 
@@ -12,21 +34,7 @@ public interface Mappable {
 	public void setRenderer(MapRenderer renderer);
 
 	/**
-	 * Returns the width of the Terrain map
-	 * 
-	 * @return the map's width
-	 */
-	public int getWidth();
-	
-	/**
-	 * Returns the height of the Terrain map
-	 * 
-	 * @return the map's height
-	 */
-	public int getHeight();
-
-	/**
-	 * Returns the Terrain type at co-ordinate (x, y).
+	 * Returns the Tile type at co-ordinate (x, y).
 	 * 
 	 * Note: internally the origin is top-left. However, by
 	 * translating the Y-axis the origin appears to be bottom-left
@@ -34,9 +42,9 @@ public interface Mappable {
 	 * 
 	 * @param row the map's x position
 	 * @param column the map's y position
-	 * @return the Terrain type
+	 * @return the Tile type
 	 */
-	public Terrain getTerrain(int x, int y);
+	public Tile getTerrain(int x, int y);
 	
 	/**
 	 * Sets the Terrain area to the defined type.
@@ -45,9 +53,11 @@ public interface Mappable {
 	 * @param y the starting y position
 	 * @param width the new region's width
 	 * @param height the new region's height
-	 * @param terrain the Terrain type
+	 * @param terrain the Tile type
+	 * 
+	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height, Terrain terrain);
+	public boolean setTerrain(int x, int y, int width, int height, Tile terrain);
 
 	/**
 	 * Sets the Terrain area to a random type
@@ -56,34 +66,53 @@ public interface Mappable {
 	 * @param y the starting y position
 	 * @param width the new region's width
 	 * @param height the new region's height
+	 * 
+	 * @return True if terrain was set successfully
 	 */
 	public boolean setTerrain(int x, int y, int width, int height);
 	
 	/**
-	 * Sets the Terrain individual tiles randomly
+	 * Sets the Terrain area's individual tiles randomly
 	 * 
 	 * @param x the starting x position
 	 * @param y the starting y position
 	 * @param width the new region's width
 	 * @param height the new region's height
-	 */
-	public void setTerrainRandomly(int x, int y, int width, int height);
-
-	/**
-	 * Calculates the percentage of passable area in the map
 	 * 
-	 * @return double percentage of passable area
+	 * @return True if terrain was set successfully
 	 */
-	public double getPassableArea();
+	public boolean setTerrainRandomly(int x, int y, int width, int height);
 
 	/**
-	 * Draws the map using the user defined Renderer. 
-	 * Fails fast.
+	 * Draws the map using the user defined renderer. 
 	 * 
 	 */
 	public void render();
 
-	public boolean setBorder(Terrain terrain, int borderWidth);	
-	public boolean setBorder(Terrain terrain);
+	/**
+	 * Draws a border around the tiled map
+	 * 
+	 * @param terrain the tile type
+	 * @param borderWidth the border width
+	 * 
+	 * @return True is the border was set successfully
+	 */
+	public boolean setBorder(Tile terrain, int borderWidth);
+
+	/**
+	 *  Sets the tile map border with a default border width
+	 *  
+	 * @param terrain the tile type
+	 * 
+	 * @return True if border was set successfully
+	 */	
+	public boolean setBorder(Tile terrain);
+
+	/**
+	 * Calculates the percentage of passable area in the map
+	 * 
+	 * @return percentage of passable area
+	 */
+	public double getPassableArea();
 }
 	

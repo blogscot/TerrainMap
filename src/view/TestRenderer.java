@@ -4,10 +4,10 @@ import model.TiledMap;
 
 /**
  * 
- * The main Terrain Map class. 
+ * A TestRenderer, used for debugging. 
  * 
  * @author Iain Diamond
- * @version 18/02/2015
+ * @version 23/02/2015
  * 
  */
 

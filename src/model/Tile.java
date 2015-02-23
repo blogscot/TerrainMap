@@ -8,23 +8,23 @@ import java.util.Random;
 
 /**
  * 
- * Defines a set of Terrain values and supporting methods
+ * The tiled map enum type
  * 
  * @author Iain Diamond
- * @version 19/02/2015
+ * @version 23/02/2015
  *
  */
 
-public enum Terrain {
+public enum Tile {
 	Entrance(' '), Grass('.'), Hedge('H'), Rock('x'), Water('w'), Fence('f'), Tree('T');
 
 	private char value;
 	
-	private static final List<Terrain> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+	private static final List<Tile> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 	private static final Random RAND = new Random();
 	
 	// Tile Colours for each Terrain type 
-	private int[] terrainColors = {
+	static private int[] terrainColors = {
 			0xffffff,
 			0x00f000,
 			0x008000,
@@ -34,19 +34,30 @@ public enum Terrain {
 			0x604020,
 	};
 	
-	private Terrain(char value) {
+	private Tile(char value) {
 		this.value = value;
+	}
+	
+	/**
+	 * 
+	 * @param index the ordinal value of the Tile
+	 * @param color the requested colour
+	 */
+	static public void setColor(int index, int color) {
+		if (index < terrainColors.length) {
+			terrainColors[index] = color % 0xffffff;
+		}
 	}
 
 	/**
-	 *  @return the ASCII representation for the enum instance
+	 *  @return the ASCII representation
 	 */
 	public char toChar() {
 		return value;
 	}
 
 	/**
-	 * @return the Terrain colour for the enum instance
+	 * @return the Terrain colour
 	 */
 	public Color toColor() {
 		return new Color(terrainColors[this.ordinal()]);	
@@ -55,12 +66,12 @@ public enum Terrain {
 	/**
 	 * @return a random Terrain type
 	 */
-	static public Terrain getRandom() {
+	static public Tile getRandom() {
 		return VALUES.get(RAND.nextInt(VALUES.size()));
 	}
 
 	/**
-	 * @return true if a person can walk through a terrain area. i.e. Trees are hard to walk through.
+	 * @return True if a tile is considered passable (i.e. it's difficult to walk through trees)
 	 */
 	public boolean isPassable() {
 		return this != Hedge && this != Rock && this != Fence && this != Tree;

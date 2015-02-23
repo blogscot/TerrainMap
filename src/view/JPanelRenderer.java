@@ -8,15 +8,15 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Terrain;
+import model.Tile;
 import model.TiledMap;
 
 /**
  * 
- * The main Terrain Map class. 
+ * JPanelRenderer draws a TiledMap using Swing components. 
  * 
  * @author Iain Diamond
- * @version 18/02/2015
+ * @version 23/02/2015
  * 
  */
 
@@ -28,8 +28,9 @@ public class JPanelRenderer implements MapRenderer {
 	private int mapWidth = 0;
 	private int mapHeight = 0;
 
-	
+	// Constructors
 	public JPanelRenderer() {
+		// Note: the dimensions are arbitrary as the frame resizes on render.
 		this(600, 600);
 	}
 	
@@ -47,12 +48,40 @@ public class JPanelRenderer implements MapRenderer {
 	}
 
 	private void init() {
-
+		
 		JPanel panel = new MapPanel();
 		panel.setBackground(new Color(200, 100, 255));
-
+		
 		Container pane = myFrame.getContentPane();
 		pane.add(panel, BorderLayout.CENTER);
+	}
+	
+	@Override
+	public void render(TiledMap map) {
+		
+		// To make the panel look pretty we need some margins
+		int widthMargin = 6;
+		int heightMargin = 28;
+		
+		myMap = map;
+		mapWidth = myMap.getWidth();
+		mapHeight = myMap.getHeight();
+		
+		// resize the frame to fit the map
+		myFrame.setSize(tileSize * mapWidth + widthMargin, 
+				tileSize * mapHeight + heightMargin);
+		myFrame.setResizable(false);
+	}
+	
+	/**
+	 * Sets the tile Size
+	 * 
+	 * @param size the requested tile size
+	 */
+	public void setTileSize(int size) {
+		if (size > 0 && size < 100) {
+			tileSize = size;
+		}
 	}
 
 	/**
@@ -63,12 +92,11 @@ public class JPanelRenderer implements MapRenderer {
 	 * @param y the tile's starting y co-ordinate 
 	 * @param terrain the tile's terrain type
 	 */
-	private void drawTile(Graphics g, int x, int y, Terrain terrain) {
+	private void drawTile(Graphics g, int x, int y, Tile terrain) {
 		int height = tileSize;
 		int width = height;
 		
 		g.setColor(terrain.toColor());
-
 		g.fillRect(x * width, y * height, width, height);
 	}
 
@@ -89,26 +117,7 @@ public class JPanelRenderer implements MapRenderer {
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponents(g);
-			g.setColor(Color.blue);
-
 			drawMap(g);
 		}
-	}
-
-	@Override
-	public void render(TiledMap map) {
-		
-		// To make the Panel look pretty we need some margins
-		int widthMargin = 6;
-		int heightMargin = 28;
-		
-		myMap = map;
-		mapWidth = myMap.getWidth();
-		mapHeight = myMap.getHeight();
-		
-		// resize the frame to fit the map
-		myFrame.setSize(tileSize * mapWidth + widthMargin, 
-				tileSize * mapHeight + heightMargin);
-		myFrame.setResizable(false);
 	}
 }
