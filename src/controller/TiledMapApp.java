@@ -10,10 +10,10 @@ import view.JPanelRenderer;
 
 /**
  * 
- * The main Tiled Map class.
+ * The Tiled Map Application main class.
  * 
  * @author Iain Diamond
- * @version 23/02/2015
+ * @version 25/02/2015
  * 
  */
 
@@ -21,14 +21,13 @@ public class TiledMapApp {
 
 	public static void main(String[] args) {
 
-		demo();
+		demo1();
 
 	}
 	
 	static void demo() {
 		
-		MapFactory factory = new MapFactory();
-		Tileable[][] factoryMap= factory.getInstance("Indoor", 60, 80);
+		Tileable[][] factoryMap= new MapFactory().getInstance("Indoor", 60, 80);
 		
 		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor);
 		
@@ -48,8 +47,7 @@ public class TiledMapApp {
 	
 	static void demo1() {
 		
-		MapFactory factory = new MapFactory();
-		Tileable[][] factoryMap= factory.getInstance("Outdoor", 60, 80);
+		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 60, 80);
 		
 		TiledMap map = new TiledMap(factoryMap, Tile.Grass);
 		
@@ -67,8 +65,10 @@ public class TiledMapApp {
 	}
 
 	static void demo2() {
-		TiledMap map = new TiledMap(60, 80, Tile.Grass,
-				new ConsoleRenderer());
+		
+		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 60, 80);
+		
+		TiledMap map = new TiledMap(factoryMap, Tile.Grass, new ConsoleRenderer());		
 
 		map.setTerrain(10, 10, 20, 15, Tile.Rock);
 		map.setTerrainRandomly(22, 32, 10, 12);
@@ -84,8 +84,9 @@ public class TiledMapApp {
 	
 	static void demo3() {
 
-		TiledMap map = new TiledMap(60, 80, Tile.Grass,
-				new ConsoleRenderer());
+		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 60, 80);
+		
+		TiledMap map = new TiledMap(factoryMap, Tile.Grass, new ConsoleRenderer());	
 //		Tile.setColor(Tile.Grass.ordinal(), 0xff0000);
 
 		map.setTerrain(10, 10, 20, 15, Tile.Rock);

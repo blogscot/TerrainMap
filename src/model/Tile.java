@@ -8,10 +8,10 @@ import java.util.Random;
 
 /**
  * 
- * The tiled map enum type
+ * An outdoor tiled map enum type
  * 
  * @author Iain Diamond
- * @version 23/02/2015
+ * @version 25/02/2015
  *
  */
 
@@ -23,8 +23,8 @@ public enum Tile implements Tileable {
 	private static final List<Tile> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 	private static final Random RAND = new Random();
 	
-	// Tile Colours for each Terrain type 
-	static private int[] terrainColors = {
+	// Colours for each tile type 
+	static private int[] tileColors = {
 			0xffffff,
 			0x00f000,
 			0x008000,
@@ -44,8 +44,8 @@ public enum Tile implements Tileable {
 	 * @param color the requested colour
 	 */
 	static public void setColor(int index, int color) {
-		if (index < terrainColors.length) {
-			terrainColors[index] = color % 0xffffff;
+		if (index < tileColors.length) {
+			tileColors[index] = color % 0xffffff;
 		}
 	}
 
@@ -57,14 +57,14 @@ public enum Tile implements Tileable {
 	}
 
 	/**
-	 * @return the Terrain colour
+	 * @return the Tile colour
 	 */
 	public Color toColor() {
-		return new Color(terrainColors[this.ordinal()]);	
+		return new Color(tileColors[this.ordinal()]);	
 	}
 	
 	/**
-	 * @return a random Terrain type
+	 * @return a random Tile type
 	 */
 	public Tile getRandom() {
 		return VALUES.get(RAND.nextInt(VALUES.size()));

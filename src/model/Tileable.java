@@ -2,6 +2,15 @@ package model;
 
 import java.awt.Color;
 
+/**
+ * 
+ * The Tile interface 
+ * 
+ * @author Iain Diamond
+ * @version 25/02/2015
+ *
+ */
+
 public interface Tileable {
 	/**
 	 *  @return the ASCII representation
@@ -9,7 +18,7 @@ public interface Tileable {
 	public char toChar();
 
 	/**
-	 * @return the Terrain colour
+	 * @return the Tile colour
 	 */
 	public Color toColor();
 	

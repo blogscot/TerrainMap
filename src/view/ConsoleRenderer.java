@@ -3,6 +3,7 @@ package view;
 import model.TiledMap;
 
 /**
+ * 
  * ConsoleRenderer draws a TiledMap to Standard Out
  * 
  * @author Iain Diamond

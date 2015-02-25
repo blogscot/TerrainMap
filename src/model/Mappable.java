@@ -3,24 +3,25 @@ package model;
 import view.MapRenderer;
 
 /**
- * The interface for tiled maps 
+ * 
+ * The Tiled Map interface 
  * 
  * @author Iain Diamond
- * @version 23/02/2015
+ * @version 25/02/2015
  *
  */
 
 public interface Mappable {
 	
 	/**
-	 * Returns the width of the tiled map
+	 * Returns the width of the map
 	 * 
 	 * @return the map's width
 	 */
 	public int getWidth();
 	
 	/**
-	 * Returns the height of the tiled map
+	 * Returns the height of the map
 	 * 
 	 * @return the map's height
 	 */
@@ -53,11 +54,11 @@ public interface Mappable {
 	 * @param y the starting y position
 	 * @param width the new region's width
 	 * @param height the new region's height
-	 * @param terrain the Tile type
+	 * @param tileType the Tile type
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height, Tileable terrain);
+	public boolean setTerrain(int x, int y, int width, int height, Tileable tileType);
 
 	/**
 	 * Sets the Terrain area to a random type
@@ -90,23 +91,23 @@ public interface Mappable {
 	public void render();
 
 	/**
-	 * Draws a border around the tiled map
+	 * Draws a border around the map
 	 * 
-	 * @param terrain the tile type
+	 * @param typeType the tile type
 	 * @param borderWidth the border width
 	 * 
 	 * @return True is the border was set successfully
 	 */
-	public boolean setBorder(Tileable terrain, int borderWidth);
+	public boolean setBorder(Tileable typeType, int borderWidth);
 
 	/**
 	 *  Sets the tile map border with a default border width
 	 *  
-	 * @param terrain the tile type
+	 * @param typeType the tile type
 	 * 
 	 * @return True if border was set successfully
 	 */	
-	public boolean setBorder(Tileable terrain);
+	public boolean setBorder(Tileable typeType);
 
 	/**
 	 * Calculates the percentage of passable area in the map
