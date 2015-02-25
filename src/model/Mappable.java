@@ -44,7 +44,7 @@ public interface Mappable {
 	 * @param column the map's y position
 	 * @return the Tile type
 	 */
-	public Tile getTerrain(int x, int y);
+	public Tileable getTerrain(int x, int y);
 	
 	/**
 	 * Sets the Terrain area to the defined type.
@@ -57,7 +57,7 @@ public interface Mappable {
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height, Tile terrain);
+	public boolean setTerrain(int x, int y, int width, int height, Tileable terrain);
 
 	/**
 	 * Sets the Terrain area to a random type
@@ -69,7 +69,7 @@ public interface Mappable {
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height);
+	public boolean setTerrainTileRandomly(int x, int y, int width, int height);
 	
 	/**
 	 * Sets the Terrain area's individual tiles randomly
@@ -97,7 +97,7 @@ public interface Mappable {
 	 * 
 	 * @return True is the border was set successfully
 	 */
-	public boolean setBorder(Tile terrain, int borderWidth);
+	public boolean setBorder(Tileable terrain, int borderWidth);
 
 	/**
 	 *  Sets the tile map border with a default border width
@@ -106,7 +106,7 @@ public interface Mappable {
 	 * 
 	 * @return True if border was set successfully
 	 */	
-	public boolean setBorder(Tile terrain);
+	public boolean setBorder(Tileable terrain);
 
 	/**
 	 * Calculates the percentage of passable area in the map

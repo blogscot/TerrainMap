@@ -8,19 +8,19 @@ import java.util.Random;
 
 /**
  * 
- * The tiled map enum type
+ * The indoor tiled map enum type
  * 
  * @author Iain Diamond
  * @version 23/02/2015
  *
  */
 
-public enum Tile implements Tileable {
-	Entrance(' '), Grass('.'), Hedge('H'), Rock('x'), Water('w'), Fence('f'), Tree('T');
+public enum IndoorTile implements Tileable {
+	Floor('_'), Door('d'), Chair('h'), Student('s'), Lecturer('L'), Desk('D'), Window('w');
 
 	private char value;
 	
-	private static final List<Tile> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+	private static final List<IndoorTile> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 	private static final Random RAND = new Random();
 	
 	// Tile Colours for each Terrain type 
@@ -34,7 +34,7 @@ public enum Tile implements Tileable {
 			0x604020,
 	};
 	
-	private Tile(char value) {
+	private IndoorTile(char value) {
 		this.value = value;
 	}
 	
@@ -45,6 +45,7 @@ public enum Tile implements Tileable {
 	 */
 	static public void setColor(int index, int color) {
 		if (index < terrainColors.length) {
+			// prevent invalid colours from raising an exception
 			terrainColors[index] = color % 0xffffff;
 		}
 	}
@@ -66,7 +67,7 @@ public enum Tile implements Tileable {
 	/**
 	 * @return a random Terrain type
 	 */
-	public Tile getRandom() {
+	public Tileable getRandom() {
 		return VALUES.get(RAND.nextInt(VALUES.size()));
 	}
 
@@ -74,6 +75,6 @@ public enum Tile implements Tileable {
 	 * @return True if a tile is considered passable (i.e. it's difficult to walk through trees)
 	 */
 	public boolean isPassable() {
-		return this != Hedge && this != Rock && this != Fence && this != Tree;
+		return this != Chair && this != Desk && this != Student && this != Lecturer;
 	}
 }

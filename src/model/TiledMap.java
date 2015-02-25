@@ -4,7 +4,7 @@ import view.MapRenderer;
 
 /**
  * 
- * The TiledMap class constructs, renders and updates 2D maps of Tile type. 
+ * The TiledMap class constructs, renders and updates 2D maps of IndoorTiletype. 
  * 
  * @author Iain Diamond
  * @version 23/02/2015
@@ -16,8 +16,9 @@ final public class TiledMap implements Mappable {
 	// The stored map dimensions
 	private int mapWidth;
 	private int mapHeight;
+	private Tileable initTile;
 
-	private Tile[][] tiledMap;
+	private Tileable[][] tiledMap;
 	private MapRenderer myRenderer;
 
 	// method input parameter validation return indicators
@@ -31,11 +32,29 @@ final public class TiledMap implements Mappable {
 	 * @param height the map's height
 	 * @param terrain the default terrain type
 	 */
-	public TiledMap(int width, int height, Tile terrain) {
+	public TiledMap(Tileable[][] map, Tileable terrain) {
+		mapWidth = map.length;
+		mapHeight = map[0].length;
+		
+		initTile = terrain;
+		tiledMap = map;
+		createMap(terrain);
+	}
+	
+	/**
+	 * Constructs a tiled map with dimensions width by height.
+	 * 
+	 * @param width the map's width
+	 * @param height the map's height
+	 * @param terrain the default terrain type
+	 */
+	public TiledMap(int width, int height, Tileable terrain) {
 		this.mapWidth = width;
 		this.mapHeight = height;
+		initTile = terrain;
 
-		tiledMap = new Tile[width][height];
+		MapFactory factory = new MapFactory();
+		tiledMap= factory.getInstance("Outdoor", width, height);
 		createMap(terrain);
 	}
 	
@@ -47,7 +66,7 @@ final public class TiledMap implements Mappable {
 	 * @param terrain the default terrain type
 	 * @param renderer the initial renderer
 	 */
-	public TiledMap(int width, int height, Tile terrain, MapRenderer renderer) 
+	public TiledMap(int width, int height, Tileable terrain, MapRenderer renderer) 
 	{
 		this(width, height, terrain);
 		setRenderer(renderer);
@@ -82,7 +101,7 @@ final public class TiledMap implements Mappable {
 	}
 
 	/**
-	 * Returns the Tile type at co-ordinate (x, y).
+	 * Returns the IndoorTiletype at co-ordinate (x, y).
 	 * 
 	 * Note: internally the origin is top-left. However, by
 	 * translating the Y-axis the origin appears to be bottom-left
@@ -90,9 +109,9 @@ final public class TiledMap implements Mappable {
 	 * 
 	 * @param row the map's x position
 	 * @param column the map's y position
-	 * @return the Tile type
+	 * @return the IndoorTiletype
 	 */
-	public Tile getTerrain(int x, int y) {
+	public Tileable getTerrain(int x, int y) {
 		return tiledMap[x][translateY(y)];
 	}
 	
@@ -103,11 +122,11 @@ final public class TiledMap implements Mappable {
 	 * @param y the starting y position
 	 * @param width the new region's width
 	 * @param height the new region's height
-	 * @param terrain the Tile type
+	 * @param terrain the IndoorTiletype
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height, Tile terrain) {
+	public boolean setTerrain(int x, int y, int width, int height, Tileable terrain) {
 
 		// Set up the terrain borders
 		int endX = x+width;
@@ -136,8 +155,8 @@ final public class TiledMap implements Mappable {
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrain(int x, int y, int width, int height) {
-		return setTerrain(x, y, width, height, Tile.getRandom());
+	public boolean setTerrainTileRandomly(int x, int y, int width, int height) {
+		return setTerrain(x, y, width, height, initTile.getRandom());
 	}
 	
 	/**
@@ -163,7 +182,8 @@ final public class TiledMap implements Mappable {
 		
 		for (int j = x; j < endX ; j++) {
 			for (int i = y; i < endY; i++) {
-				tiledMap[j][i] = Tile.getRandom();
+				
+				tiledMap[j][i] = initTile.getRandom();
 			}
 		}
 		return SUCCESS;
@@ -205,12 +225,12 @@ final public class TiledMap implements Mappable {
 	/**
 	 * Draws a border around the tiled map
 	 * 
-	 * @param terrain the tile type
+	 * @param terrain the IndoorTiletype
 	 * @param borderWidth the border width
 	 * 
 	 * @return True is the border was set successfully
 	 */
-	public boolean setBorder(Tile terrain, int borderWidth) {
+	public boolean setBorder(Tileable terrain, int borderWidth) {
 		
 		if (borderWidth > mapWidth / 2 ){
 			System.err.println("Invalid Border set: "+borderWidth);
@@ -231,13 +251,13 @@ final public class TiledMap implements Mappable {
 	}
 	
 	/**
-	 *  Sets the tile map border with a default border width
+	 *  Sets the IndoorTilemap border with a default border width
 	 *  
-	 * @param terrain the tile type
+	 * @param terrain the IndoorTiletype
 	 * 
 	 * @return True if border was set successfully
 	 */
-	public boolean setBorder(Tile terrain) {
+	public boolean setBorder(Tileable terrain) {
 		return setBorder(terrain, 1);
 	}
 	
@@ -263,9 +283,9 @@ final public class TiledMap implements Mappable {
 	/**
 	 * Initialises the tiled map 
 	 * 
-	 * @param terrain the tile type
+	 * @param terrain the IndoorTiletype
 	 */
-	private void createMap(Tile terrain) {
+	private void createMap(Tileable terrain) {
 	
 		for (int j = 0; j < mapHeight; j++) {
 			for (int i = 0; i < mapWidth; i++) {
@@ -284,4 +304,5 @@ final public class TiledMap implements Mappable {
 	private int translateY(int value) {
 		return mapHeight - 1 - value;
 	}
+
 }

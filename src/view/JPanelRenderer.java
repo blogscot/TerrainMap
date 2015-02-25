@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Tile;
+import model.Tileable;
 import model.TiledMap;
 
 /**
@@ -92,7 +92,7 @@ public class JPanelRenderer implements MapRenderer {
 	 * @param y the tile's starting y co-ordinate 
 	 * @param terrain the tile's terrain type
 	 */
-	private void drawTile(Graphics g, int x, int y, Tile terrain) {
+	private void drawTile(Graphics g, int x, int y, Tileable terrain) {
 		int height = tileSize;
 		int width = height;
 		
