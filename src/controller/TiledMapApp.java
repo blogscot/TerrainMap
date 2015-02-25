@@ -21,7 +21,7 @@ public class TiledMapApp {
 
 	public static void main(String[] args) {
 
-		demo1();
+		demo();
 
 	}
 	
@@ -29,7 +29,7 @@ public class TiledMapApp {
 		
 		Tileable[][] factoryMap= new MapFactory().getInstance("Indoor", 60, 80);
 		
-		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor);
+		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor, new JPanelRenderer());
 		
 		map.setTerrain(10, 10, 20, 15, IndoorTile.Desk);
 		map.setTerrainRandomly(22, 32, 20, 20);
@@ -37,9 +37,9 @@ public class TiledMapApp {
 		map.setBorder(IndoorTile.Student, 5);
 		map.setBorder(IndoorTile.Lecturer, 2);
 
-		JPanelRenderer myRenderer = new JPanelRenderer();
-		myRenderer.setTileSize(2);
-		map.setRenderer(myRenderer);
+//		JPanelRenderer myRenderer = new JPanelRenderer();
+//		myRenderer.setTileSize(2);
+//		map.setRenderer(myRenderer);
 
 		map.render();
 

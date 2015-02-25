@@ -27,7 +27,8 @@ public class JPanelRenderer implements MapRenderer {
 	private int tileSize = 10;
 	private int mapWidth = 0;
 	private int mapHeight = 0;
-
+	private static JPanel panel = null;
+	
 	// Constructors
 	public JPanelRenderer() {
 		// Note: the dimensions are arbitrary as the frame resizes on render.
@@ -39,31 +40,34 @@ public class JPanelRenderer implements MapRenderer {
 		mapWidth = width;
 		mapHeight = height;
 
-		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		init();
-		myFrame.setSize(mapWidth, mapHeight);
-		myFrame.setTitle("Terrain Map");
-		myFrame.setBackground(new Color(150, 255, 220));
-		myFrame.setVisible(true);
-	}
+		// Prevents more than one panel being rendered at a time
+		if (panel == null) {
+			panel = new MapPanel();
+			panel.setBackground(new Color(200, 100, 255));
 
-	private void init() {
-		
-		JPanel panel = new MapPanel();
-		panel.setBackground(new Color(200, 100, 255));
-		
-		Container pane = myFrame.getContentPane();
-		pane.add(panel, BorderLayout.CENTER);
+			Container pane = myFrame.getContentPane();
+			pane.add(panel, BorderLayout.CENTER);
+
+			myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			myFrame.setSize(mapWidth, mapHeight);
+			myFrame.setTitle("Terrain Map");
+			myFrame.setBackground(new Color(150, 255, 220));
+			myFrame.setVisible(true);
+		}
+
 	}
 	
 	@Override
 	public void render(TiledMap map) {
+		
+		if (map == null) return;
 		
 		// To make the panel look pretty we need some margins
 		int widthMargin = 6;
 		int heightMargin = 28;
 		
 		myMap = map;
+		
 		mapWidth = myMap.getWidth();
 		mapHeight = myMap.getHeight();
 		
@@ -117,7 +121,7 @@ public class JPanelRenderer implements MapRenderer {
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponents(g);
-			drawMap(g);
+				drawMap(g);
 		}
 	}
 }
