@@ -13,54 +13,49 @@ import model.TiledMap;
 
 /**
  * 
- * JPanelRenderer draws a TiledMap using Swing components. 
+ * JPanelRenderer draws a TiledMap using Swing components.
+ * The renderer is implemented using the Singleton pattern. 
  * 
  * @author Iain Diamond
- * @version 23/02/2015
+ * @version 25/02/2015
  * 
  */
 
 public class JPanelRenderer implements MapRenderer {
 
-	private JFrame myFrame = new JFrame();
+	private final JFrame myFrame = new JFrame();
+	private final Container pane = myFrame.getContentPane();
 	private TiledMap myMap = null;
+	
 	private int tileSize = 10;
 	private int mapWidth = 0;
 	private int mapHeight = 0;
 	private static JPanel panel = null;
 	
-	// Constructors
-	public JPanelRenderer() {
-		// Note: the dimensions are arbitrary as the frame resizes on render.
-		this(600, 600);
-	}
+	private static JPanelRenderer jPanelRenderer = new JPanelRenderer();
 	
-	public JPanelRenderer(int width, int height) {
+	public static JPanelRenderer getInstance() {
+		return jPanelRenderer;
+	}
 
-		mapWidth = width;
-		mapHeight = height;
+	// Singletons use private constructor
+	private JPanelRenderer() {
 
-		// Prevents more than one panel being rendered at a time
-		if (panel == null) {
-			panel = new MapPanel();
-			panel.setBackground(new Color(200, 100, 255));
+		panel = new MapPanel();
+		panel.setBackground(new Color(200, 100, 255));
 
-			Container pane = myFrame.getContentPane();
-			pane.add(panel, BorderLayout.CENTER);
+		pane.add(panel, BorderLayout.CENTER);
 
-			myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			myFrame.setSize(mapWidth, mapHeight);
-			myFrame.setTitle("Terrain Map");
-			myFrame.setBackground(new Color(150, 255, 220));
-			myFrame.setVisible(true);
-		}
+		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		myFrame.setSize(mapWidth, mapHeight);
+		myFrame.setTitle("Terrain Map");
+		myFrame.setBackground(new Color(150, 255, 220));
+		myFrame.setVisible(true);
 
 	}
 	
 	@Override
 	public void render(TiledMap map) {
-		
-		if (map == null) return;
 		
 		// To make the panel look pretty we need some margins
 		int widthMargin = 6;
@@ -121,7 +116,7 @@ public class JPanelRenderer implements MapRenderer {
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponents(g);
-				drawMap(g);
+			drawMap(g);
 		}
 	}
 }

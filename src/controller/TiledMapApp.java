@@ -21,35 +21,51 @@ public class TiledMapApp {
 
 	public static void main(String[] args) {
 
-		demo();
+		OutdoorConsole();
 
 	}
 	
-	static void demo() {
+	static void IndoorJPanel() {
 		
 		Tileable[][] factoryMap= new MapFactory().getInstance("Indoor", 60, 80);
 		
-		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor, new JPanelRenderer());
+		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor, JPanelRenderer.getInstance());
 		
 		map.setTerrain(10, 10, 20, 15, IndoorTile.Desk);
 		map.setTerrainRandomly(22, 32, 20, 20);
 		map.setTerrain(40, 20, 10, 20, IndoorTile.Window);
 		map.setBorder(IndoorTile.Student, 5);
 		map.setBorder(IndoorTile.Lecturer, 2);
-
-//		JPanelRenderer myRenderer = new JPanelRenderer();
-//		myRenderer.setTileSize(2);
-//		map.setRenderer(myRenderer);
+		
+		JPanelRenderer myRenderer = JPanelRenderer.getInstance(); 
+		myRenderer.setTileSize(2);
+		map.setRenderer(myRenderer);
 
 		map.render();
 
 	}
 	
-	static void demo1() {
+	static void IndoorConsole() {
+		
+		Tileable[][] factoryMap= new MapFactory().getInstance("Indoor", 60, 80);
+		
+		TiledMap map = new TiledMap(factoryMap, IndoorTile.Floor, new ConsoleRenderer());
+		
+		map.setTerrain(10, 10, 20, 15, IndoorTile.Desk);
+		map.setTerrainRandomly(22, 32, 20, 20);
+		map.setTerrain(40, 20, 10, 20, IndoorTile.Window);
+		map.setBorder(IndoorTile.Student, 5);
+		map.setBorder(IndoorTile.Lecturer, 2);
+		
+		map.render();
+
+	}
+	
+	static void OutdoorConsole() {
 		
 		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 60, 80);
 		
-		TiledMap map = new TiledMap(factoryMap, Tile.Grass);
+		TiledMap map = new TiledMap(factoryMap, Tile.Grass, new ConsoleRenderer());
 		
 		map.setTerrain(10, 10, 20, 15, Tile.Rock);
 		map.setTerrainRandomly(22, 32, 10, 12);
@@ -59,7 +75,6 @@ public class TiledMapApp {
 		map.setBorder(Tile.Fence, 5);
 		map.setBorder(Tile.Water, 2);
 
-		map.setRenderer(new JPanelRenderer());
 		map.render();
 
 	}
@@ -96,7 +111,7 @@ public class TiledMapApp {
 		map.setBorder(Tile.Water, 2);
 
 //		myRenderer.setTileSize(2);
-		map.setRenderer(new JPanelRenderer());
+		map.setRenderer(JPanelRenderer.getInstance());
 
 		map.render();
 	}
