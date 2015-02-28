@@ -26,12 +26,12 @@ public enum IndoorTile implements Tileable {
 	// Colours for each tile type 
 	static private int[] tileColors = {
 			0xffffff,
-			0x00f000,
-			0x008000,
-			0xa0a0a0,
-			0x20c0f0,
-			0xa08040,
-			0x604020,
+			0x00f0f0,
+			0x408000,
+			0x2050a0,
+			0x20c030,
+			0x208040,
+			0xf04020,
 	};
 	
 	private IndoorTile(char value) {

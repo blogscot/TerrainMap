@@ -9,7 +9,7 @@ import view.MapRenderer;
  * more than one Tile type. 
  * 
  * @author Iain Diamond
- * @version 25/02/2015
+ * @version 28/02/2015
  * 
  */
 
@@ -141,7 +141,7 @@ final public class TiledMap implements Mappable {
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrainTileRandomly(int x, int y, int width, int height) {
+	public boolean setTerrain(int x, int y, int width, int height) {
 		return setTerrain(x, y, width, height, initTile.getRandom());
 	}
 	

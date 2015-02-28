@@ -7,7 +7,7 @@ import view.MapRenderer;
  * The Tiled Map interface 
  * 
  * @author Iain Diamond
- * @version 25/02/2015
+ * @version 28/02/2015
  *
  */
 
@@ -70,7 +70,7 @@ public interface Mappable {
 	 * 
 	 * @return True if terrain was set successfully
 	 */
-	public boolean setTerrainTileRandomly(int x, int y, int width, int height);
+	public boolean setTerrain(int x, int y, int width, int height);
 	
 	/**
 	 * Sets the Terrain area's individual tiles randomly
