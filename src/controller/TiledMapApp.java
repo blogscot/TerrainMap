@@ -20,12 +20,12 @@ import view.JPanelRenderer;
 public class TiledMapApp {
 
 	public static void main(String[] args) {
-		IndoorConsole();
+		OutdoorConsole();
 	}
 	
 	static void OutdoorConsole() {
 		// Let's make a map using our factory
-		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 400, 380);
+		Tileable[][] factoryMap= new MapFactory().getInstance("Outdoor", 80, 60);
 		
 		// And use Dependency Injection to initialise our tiled map  
 		TiledMap map = new TiledMap(factoryMap, Tile.Grass, new ConsoleRenderer());
@@ -49,9 +49,9 @@ public class TiledMapApp {
 		
 		// Let's create a JPanel renderer. Note, it's a singleton
 		JPanelRenderer myRenderer = JPanelRenderer.getInstance(); 
-		myRenderer.setTileSize(2);
+//		myRenderer.setTileSize(2);
 		map.setRenderer(myRenderer);
-//		Tile.setColor(Tile.Grass.ordinal(), 0x00a040);
+//		Tile.setColor(Tile.Grass, 0x000000);
 
 		map.render();
 	}
@@ -84,7 +84,7 @@ public class TiledMapApp {
 		JPanelRenderer myRenderer = JPanelRenderer.getInstance(); 
 //		myRenderer.setTileSize(2);
 		map.setRenderer(myRenderer);
-//		Tile.setColor(Tile.Grass.ordinal(), 0x00a040);
+		Tile.setColor(IndoorTile.Window, 0x00a040);
 		
 		map.render();
 	}

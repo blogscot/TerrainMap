@@ -40,10 +40,11 @@ public enum Tile implements Tileable {
 	
 	/**
 	 * 
-	 * @param index the ordinal value of the Tile
+	 * @param tile the tile
 	 * @param color the requested colour
 	 */
-	static public void setColor(int index, int color) {
+	static public void setColor(Tileable tile, int color) {
+		int index = ((Tile)tile).ordinal();
 		if (index < tileColors.length) {
 			tileColors[index] = color % 0xffffff;
 		}
@@ -64,9 +65,9 @@ public enum Tile implements Tileable {
 	}
 	
 	/**
-	 * @return a random Tile type
+	 * @return a random Tileable type
 	 */
-	public Tile getRandom() {
+	public Tileable getRandom() {
 		return VALUES.get(RAND.nextInt(VALUES.size()));
 	}
 
